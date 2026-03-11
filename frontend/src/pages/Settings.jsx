@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext";
+import toast from "react-hot-toast";
 
 const settingsNavItems = [
   { icon: User, label: "Profile" },
@@ -31,7 +32,7 @@ export default function Settings() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeSetting, setActiveSetting] = useState("Profile");
-  const { user, updateUser, fetchUserProfile  } = useAuth();
+  const { user, updateUser, fetchUserProfile } = useAuth();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -101,10 +102,11 @@ export default function Settings() {
       }, 500);
 
       setAvatarFile(null);
+      toast.success("Profile updated successfully!");
       setProfilePopup(true);
     } catch (error) {
       console.error("❌ Error updating profile:", error.response?.data || error);
-      alert("Failed to update profile.");
+      toast.error("Failed to update profile.");
     } finally {
       setLoading(false);
     }
@@ -155,9 +157,8 @@ export default function Settings() {
       />
 
       <div
-        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 mt-3 ${
-          sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
-        }`}
+        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 mt-3 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
+          }`}
       >
         <div className="flex flex-1 mt-15">
           {/* Settings Sidebar */}
@@ -170,18 +171,16 @@ export default function Settings() {
                     <button
                       onClick={() => setActiveSetting(item.label)}
                       key={item.label}
-                      className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-left transition-colors ${
-                        activeSetting === item.label
-                          ? "bg-teal-50 dark:bg-teal-900/20 text-main"
-                          : "text-muted hover:bg-canvas-alt"
-                      }`}
+                      className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-left transition-colors ${activeSetting === item.label
+                        ? "bg-teal-50 dark:bg-teal-900/20 text-main"
+                        : "text-muted hover:bg-canvas-alt"
+                        }`}
                     >
                       <IconComponent
-                        className={`w-4 h-4 ${
-                          activeSetting === item.label
-                            ? "text-[#00BEA5]"
-                            : "text-[#00BEA5]"
-                        }`}
+                        className={`w-4 h-4 ${activeSetting === item.label
+                          ? "text-[#00BEA5]"
+                          : "text-[#00BEA5]"
+                          }`}
                       />
                       <span className="font-medium text-[16px] font-[Inter]">
                         {item.label}
@@ -386,7 +385,7 @@ export default function Settings() {
                         setLoading(true);
                         try {
                           const token = localStorage.getItem("token");
-            
+
                           await axios.put(
                             "/api/users/settings",
                             {
@@ -396,11 +395,11 @@ export default function Settings() {
                           );
 
 
-                          alert("Notification settings updated successfully!");
+                          toast.success("Notification settings updated successfully!");
                           setOriginalNotifications({ ...settingsData.notifications });
                         } catch (error) {
                           console.error("Error updating settings:", error);
-                          alert("Failed to update settings. Please try again.");
+                          toast.error("Failed to update settings. Please try again.");
                         } finally {
                           setLoading(false);
                         }
@@ -493,61 +492,61 @@ export default function Settings() {
                           <label className="absolute -top-2 left-4 bg-card px-2 text-[14px] text-muted font-medium font-[Inter]">
                             Current Password
                           </label>
-                            <input
-                              type={showCurrentPassword ? "text" : "password"}
-                              value={passwordData.currentPassword}
-                              onChange={(e) =>
-                                setPasswordData((prev) => ({
-                                  ...prev,
-                                  currentPassword: e.target.value,
-                                }))
-                              }
-                              className="w-full h-[50px] px-4 pr-12 rounded-xl border border-border text-[16px] font-[Inter] focus:ring-2 focus:ring-primary focus:border-primary bg-input text-main"
-                            />
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setShowCurrentPassword(!showCurrentPassword)
-                              }
-                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-main"
-                            >
-                              {showCurrentPassword ? (
-                                <EyeOff className="w-5 h-5" />
-                              ) : (
-                                <Eye className="w-5 h-5" />
-                              )}
-                            </button>
+                          <input
+                            type={showCurrentPassword ? "text" : "password"}
+                            value={passwordData.currentPassword}
+                            onChange={(e) =>
+                              setPasswordData((prev) => ({
+                                ...prev,
+                                currentPassword: e.target.value,
+                              }))
+                            }
+                            className="w-full h-[50px] px-4 pr-12 rounded-xl border border-border text-[16px] font-[Inter] focus:ring-2 focus:ring-primary focus:border-primary bg-input text-main"
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setShowCurrentPassword(!showCurrentPassword)
+                            }
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-main"
+                          >
+                            {showCurrentPassword ? (
+                              <EyeOff className="w-5 h-5" />
+                            ) : (
+                              <Eye className="w-5 h-5" />
+                            )}
+                          </button>
                         </div>
 
                         <div className="relative">
                           <label className="absolute -top-2 left-4 bg-card px-2 text-[14px] text-muted font-medium font-[Inter]">
                             New Password
                           </label>
-                            <input
-                              type={showNewPassword ? "text" : "password"}
-                              value={passwordData.newPassword}
-                              onChange={(e) =>
-                                setPasswordData((prev) => ({
-                                  ...prev,
-                                  newPassword: e.target.value,
-                                }))
-                              }
-                              className="w-full h-[50px] px-4 pr-12 rounded-xl border border-border text-[16px] font-[Inter] focus:ring-2 focus:ring-primary focus:border-primary bg-input text-main"
-                            />
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setShowNewPassword(!showNewPassword)
-                              }
-                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-main"
-                            >
-                              {showNewPassword ? (
-                                <EyeOff className="w-5 h-5" />
-                              ) : (
-                                <Eye className="w-5 h-5" />
-                              )}
-                            </button>
-                          
+                          <input
+                            type={showNewPassword ? "text" : "password"}
+                            value={passwordData.newPassword}
+                            onChange={(e) =>
+                              setPasswordData((prev) => ({
+                                ...prev,
+                                newPassword: e.target.value,
+                              }))
+                            }
+                            className="w-full h-[50px] px-4 pr-12 rounded-xl border border-border text-[16px] font-[Inter] focus:ring-2 focus:ring-primary focus:border-primary bg-input text-main"
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setShowNewPassword(!showNewPassword)
+                            }
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-main"
+                          >
+                            {showNewPassword ? (
+                              <EyeOff className="w-5 h-5" />
+                            ) : (
+                              <Eye className="w-5 h-5" />
+                            )}
+                          </button>
+
                         </div>
 
                         <div className="relative">
@@ -583,7 +582,7 @@ export default function Settings() {
                           passwordData.newPassword !==
                           passwordData.confirmPassword
                         ) {
-                          alert("New passwords do not match!");
+                          toast.error("New passwords do not match!");
                           return;
                         }
                         setLoading(true);
@@ -594,7 +593,7 @@ export default function Settings() {
                             { security: settingsData.security },
                             { headers: { Authorization: `Bearer ${token}` } }
                           );
-                          alert("Security settings updated successfully!");
+                          toast.success("Security settings updated successfully!");
                           setPasswordData({
                             currentPassword: "",
                             newPassword: "",
@@ -602,7 +601,7 @@ export default function Settings() {
                           });
                         } catch (error) {
                           console.error("Error updating settings:", error);
-                          alert("Failed to update settings. Please try again.");
+                          toast.error("Failed to update settings. Please try again.");
                         } finally {
                           setLoading(false);
                         }
@@ -642,11 +641,10 @@ export default function Settings() {
                           <button
                             key={theme.value}
                             onClick={() => setTheme(theme.value)}
-                            className={`p-4 rounded-xl border-2 transition-colors ${
-                              theme === theme.value
-                                ? "border-primary bg-teal-50 dark:bg-teal-900/20 text-main"
-                                : "border-border hover:border-primary text-muted hover:text-main"
-                            }`}
+                            className={`p-4 rounded-xl border-2 transition-colors ${theme === theme.value
+                              ? "border-primary bg-teal-50 dark:bg-teal-900/20 text-main"
+                              : "border-border hover:border-primary text-muted hover:text-main"
+                              }`}
                           >
                             <div className="text-2xl mb-2">{theme.icon}</div>
                             <div className="text-[14px] font-medium font-[Inter]">
@@ -705,10 +703,10 @@ export default function Settings() {
                             { appearance: settingsData.appearance },
                             { headers: { Authorization: `Bearer ${token}` } }
                           );
-                          alert("Appearance settings updated successfully!");
+                          toast.success("Appearance settings updated successfully!");
                         } catch (error) {
                           console.error("Error updating settings:", error);
-                          alert("Failed to update settings. Please try again.");
+                          toast.error("Failed to update settings. Please try again.");
                         } finally {
                           setLoading(false);
                         }
@@ -787,10 +785,10 @@ export default function Settings() {
                             },
                             { headers: { Authorization: `Bearer ${token}` } }
                           );
-                          alert("Language settings updated successfully!");
+                          toast.success("Language settings updated successfully!");
                         } catch (error) {
                           console.error("Error updating settings:", error);
-                          alert("Failed to update settings. Please try again.");
+                          toast.error("Failed to update settings. Please try again.");
                         } finally {
                           setLoading(false);
                         }
