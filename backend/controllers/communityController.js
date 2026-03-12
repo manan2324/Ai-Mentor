@@ -259,7 +259,7 @@ const replyCommunityPost = async (req, res) => {
 
     const updatedReplies = [...(post.replies || []), newReply];
     post.replies = updatedReplies;
-    post.changed('replies', true);
+    post.changed("replies", true);
     await post.save();
 
     const updated = await CommunityPost.findByPk(post.id, {
