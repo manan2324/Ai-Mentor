@@ -88,6 +88,52 @@ const loginUser = async (req, res) => {
   }
 };
 
+// @desc Change Password
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!req.user) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "All fields required" });
+    }
+
+    const user = await User.findByPk(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Users authenticated via OAuth may not have a local password set
+    if (!user.password) {
+      return res.status(400).json({
+        message:
+          "No local password is set for this account. Please set a password via the password reset flow.",
+      });
+    }
+    // Check current password
+    const isMatch = await user.matchPassword(currentPassword);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Current password incorrect" });
+    }
+
+    // Update password
+    user.password = newPassword;
+
+    await user.save(); // hook will hash it automatically
+
+    res.json({ message: "Password updated successfully" });
+
+  } catch (error) {
+    console.error("CHANGE PASSWORD ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 // @desc Get profile
 const getUserProfile = async (req, res) => {
   try {
@@ -325,4 +371,5 @@ export {
   updateUserSettings, // stub
   updateUserProfile, // stub
   removePurchasedCourse,
+  changePassword
 };
