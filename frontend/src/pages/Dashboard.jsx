@@ -343,9 +343,8 @@ const Dashboard = () => {
         <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         <Sidebar activePage="dashboard" />
         <div
-          className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
-            sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
-          }`}
+          className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
+            }`}
         >
           <main className="flex-1 mt-10 overflow-x-hidden overflow-y-auto bg-canvas-alt p-6">
             <div className="flex items-center justify-center h-64">
@@ -365,9 +364,8 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <div
-        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
-          sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
-        }`}
+        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
+          }`}
       >
         {/* Header */}
 
@@ -379,24 +377,24 @@ const Dashboard = () => {
               {dynamicStatsCards.map((card, index) => {
                 const statLabelKeys = ["ongoing_courses", "completed", "certificates", "hours_spent"];
                 return (
-                <div
-                  key={index}
-                  className="bg-card rounded-2xl p-6 shadow-sm border border-border hover:shadow-lg hover:-translate-y-1 hover:border-teal-500/40 transition-all duration-300 cursor-pointer"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-xl ${card.iconBg}`}>
-                      {card.icon}
+                  <div
+                    key={index}
+                    className="bg-card rounded-2xl p-6 shadow-sm border border-border hover:shadow-lg hover:-translate-y-1 hover:border-teal-500/40 transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`p-3 rounded-xl ${card.iconBg}`}>
+                        {card.icon}
+                      </div>
+                      <span className="text-sm font-medium text-green-600">
+                        {card.change}
+                      </span>
                     </div>
-                    <span className="text-sm font-medium text-green-600">
-                      {card.change}
-                    </span>
+                    <div className="text-2xl font-bold text-main mb-1">
+                      {card.value}
+                    </div>
+                    <div className="text-sm text-muted">{t(`dashboard.${statLabelKeys[index]}`)}</div>
                   </div>
-                  <div className="text-2xl font-bold text-main mb-1">
-                    {card.value}
-                  </div>
-                  <div className="text-sm text-muted">{t(`dashboard.${statLabelKeys[index]}`)}</div>
-                </div>
-              );
+                );
               })}
             </div>
 
@@ -455,198 +453,6 @@ const Dashboard = () => {
 
               {/* My Courses Table */}
               <div className="xl:col-span-2 flex flex-col">
-                <h2 className="text-xl font-bold text-main mb-6">My Courses</h2>
-                <div className="bg-card rounded-xl border border-border overflow-hidden">
-                  <div className="overflow-x-auto">
-                    {filteredMyCourses.length !== 0 ? (
-                      <table className="w-full">
-                        <thead className="bg-canvas-alt">
-                          <tr>
-                            <th className="px-4 py-4 text-left text-sm font-medium text-muted">
-                              Course
-                            </th>
-                            <th className="px-4 py-4 text-left text-sm font-medium text-muted">
-                              Progress
-                            </th>
-                            <th className="px-4 py-4 text-left text-sm font-medium text-muted">
-                              Lessons
-                            </th>
-                            <th className="px-4 py-4 text-left text-sm font-medium text-muted">
-                              Level
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                          {filteredMyCourses.map((course, index) => (
-                            <tr key={index} className="hover:bg-canvas-alt">
-                              <td className="px-4 py-4">
-                                <Link
-                                  to={`/learning/${course.id}`}
-                                  className="flex items-center"
-                                >
-                                  <img
-                                    src={course.image}
-                                    alt={course.title}
-                                    className="w-12 h-12 rounded-lg mr-4"
-                                  />
-                                  <div>
-                                    <div className="font-medium text-main hover:text-indigo-600">
-                                      {course.title}
-                                    </div>
-                                    <div className="text-sm text-muted">
-                                      {course.subtitle}
-                                    </div>
-                                  </div>
-                                </Link>
-                              </td>
-                              <td className="px-4 py-4">
-                                <div className="w-20 bg-border rounded-full h-2 mb-1">
-                                  <div
-                                    className={`h-2 rounded-full ${course.progressColor}`}
-                                    style={{ width: `${course.progress}%` }}
-                                  ></div>
-                                </div>
-                                <div className="text-sm text-muted">
-                                  {course.progress}%
-                                </div>
-                              </td>
-                              <td className="px-4 py-4 text-muted">
-                                {course.lessons}
-                              </td>
-                              <td className="px-4 py-4">
-                                <span
-                                  className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${course.levelColor}`}
-                                >
-                                  {course.level}
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    ) : normalizedSearchQuery && filteredAllCourses.length > 0 ? (
-                      <div className="p-6">
-                        <p className="text-center text-muted mb-4">
-                          {t("dashboard.fallbackMatchingCourses")}
-                        </p>
-                        <div className="space-y-3">
-                          {filteredAllCourses.slice(0, 6).map((course) => (
-                            <div
-                              key={course.id}
-                              className="flex items-center justify-between p-3 rounded-lg border border-border bg-canvas-alt"
-                            >
-                              <div className="flex items-center min-w-0">
-                                <img
-                                  src={course.image}
-                                  alt={course.title}
-                                  className="w-12 h-12 rounded-lg mr-4"
-                                />
-                                <div className="min-w-0">
-                                  <div className="font-medium text-main truncate">
-                                    {course.title}
-                                  </div>
-                                  <div className="text-sm text-muted truncate">
-                                    {course.category} • {course.level}
-                                  </div>
-                                </div>
-                              </div>
-                              <button
-                                onClick={() => navigate(`/course-preview/${course.id}`)}
-                                className="ml-3 px-3 py-2 bg-teal-500 text-white text-xs font-medium rounded-lg hover:bg-teal-600"
-                              >
-                                View
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="p-6 text-center text-muted">
-                        <p>
-                          {normalizedSearchQuery
-                            ? "No courses match your search."
-                            : "You haven't enrolled in any courses yet."}
-                        </p>
-                        <button
-                          className="mt-4 px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600"
-                          onClick={handleBrowseCourses}
-                        >
-                          Browse Courses
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Continue Learning */}
-                {filteredContinueLearning.length !== 0 ? (
-                  <div>
-                    <h2 className="text-xl font-bold text-main mt-6 mb-6">
-                      Continue Learning
-                    </h2>
-                    <div className="space-y-4">
-                      {filteredContinueLearning.map((item, index) => (
-                        <div
-                          key={index}
-                          className="bg-card rounded-xl p-4 border border-border shadow-sm hover:shadow-md transition-shadow"
-                        >
-                          <div className="flex items-center">
-                            <Link
-                              to={`/course-preview/${item.id}`}
-                              className="flex items-center flex-1"
-                            >
-                              <img
-                                src={item.image}
-                                alt={item.title}
-                                className="w-12 h-12 rounded-lg mr-4"
-                              />
-                              <div className="flex-1">
-                                <h3 className="font-medium text-main mb-1 hover:text-teal-600">
-                                  {item.title}
-                                </h3>
-                                <p className="text-sm text-muted mb-2">
-                                  {item.lesson}
-                                </p>
-                                <div className="w-full bg-border rounded-full h-2 mb-2">
-                                  <div
-                                    className={`h-2 rounded-full ${item.progressColor}`}
-                                    style={{ width: `${item.progress}%` }}
-                                  ></div>
-                                </div>
-                              </div>
-                            </Link>
-                            <Link
-                              to={`/learning/${item.id}`}
-                              className="ml-4 px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600"
-                            >
-                              Continue
-                            </Link>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-6  text-muted">
-                    <p>
-                      {normalizedSearchQuery
-                        ? "No in-progress courses match your search."
-                        : "Start Learning to get your progress tracked!"}
-                    </p>
-                    <button                      className="mt-4 px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600"
-                      onClick={() => navigate("/courses")}
-                    >
-                      My Courses
-                    </button> 
-                  </div>
-              )}
-              </div>
-
-            </div>
-
-            <div className="grid grid-cols-1 gap-8">
-              {/* My Courses Table */}
-              <div>
                 <h2 className="text-xl font-bold text-main mb-6">
                   {t("dashboard.my_courses")}
                 </h2>
@@ -719,10 +525,70 @@ const Dashboard = () => {
                     </table>
                   </div>
                 </div>
+                {/* Continue Learning */}
+                {filteredContinueLearning.length !== 0 ? (
+                  <div>
+                    <h2 className="text-xl font-bold text-main mt-6 mb-6">
+                      {t("common.continue_learning")}
+                    </h2>
+                    <div className="space-y-4">
+                      {filteredContinueLearning.map((item, index) => (
+                        <div
+                          key={index}
+                          className="bg-card rounded-xl p-4 border border-border shadow-sm hover:shadow-md transition-shadow"
+                        >
+                          <div className="flex items-center">
+                            <Link
+                              to={`/course-preview/${item.id}`}
+                              className="flex items-center flex-1"
+                            >
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                className="w-12 h-12 rounded-lg mr-4"
+                              />
+                              <div className="flex-1">
+                                <h3 className="font-medium text-main mb-1 hover:text-teal-600">
+                                  {item.title}
+                                </h3>
+                                <p className="text-sm text-muted mb-2">
+                                  {item.lesson}
+                                </p>
+                                <div className="w-full bg-border rounded-full h-2 mb-2">
+                                  <div
+                                    className={`h-2 rounded-full ${item.progressColor}`}
+                                    style={{ width: `${item.progress}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                            </Link>
+                            <Link
+                              to={`/learning/${item.id}`}
+                              className="ml-4 px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600"
+                            >
+                              {t("common.continue_learning")}
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-6  text-muted">
+                    <p>
+                      {normalizedSearchQuery
+                        ? "No in-progress courses match your search."
+                        : "Start Learning to get your progress tracked!"}
+                    </p>
+                    <button className="mt-4 px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600"
+                      onClick={() => navigate("/courses")}
+                    >
+                      {t("courses.my_courses")}
+                    </button>
+                  </div>
+                )}
               </div>
-
             </div>
-
           </div>
         </main>
       </div>
