@@ -929,7 +929,7 @@ export default function Learning() {
           <div className="flex items-center justify-between">
             {/* Custom Dropdown for Modules and Lessons */}
             <div className="relative min-w-95 max-w-125 flex items-center">
-              <span className="text-main font-semibold mr-3">{t("learning.contents")}</span>
+              <span className="text-main font-semibold mr-3">Content</span>
               <div className="relative w-full">
                 <div
                   className="bg-canvas-alt border border-border rounded-2xl px-6 py-2 pr-12 text-base text-main cursor-pointer flex items-center justify-between select-none min-h-12"

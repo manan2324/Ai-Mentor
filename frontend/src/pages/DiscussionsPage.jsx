@@ -64,6 +64,7 @@ const GLOBAL_CATEGORIES = [
   "Feedback",
   "Off-Topic",
 ];
+const ALL_CATEGORIES_VALUE = "ALL_CATEGORIES";
 
 const CATEGORY_KEY_MAP = {
   "Course Discussion": "cat_course_discussion",
@@ -115,7 +116,7 @@ const DiscussionsPage = () => {
   const [globalLoading, setGlobalLoading] = useState(false);
   const [globalSort, setGlobalSort] = useState("Recent");
   const [globalCategoryFilter, setGlobalCategoryFilter] =
-    useState("All Categories");
+    useState(ALL_CATEGORIES_VALUE);
   const [globalContent, setGlobalContent] = useState("");
   const [globalCategory, setGlobalCategory] = useState("");
   const [expandedGlobalPost, setExpandedGlobalPost] = useState(null);
@@ -194,7 +195,7 @@ const DiscussionsPage = () => {
       setGlobalLoading(true);
       try {
         const params = new URLSearchParams();
-        if (cat && cat !== "All Categories") params.set("category", cat);
+        if (cat && cat !== ALL_CATEGORIES_VALUE) params.set("category", cat);
         if (sort === "Popular") params.set("sort", "popular");
         const res = await fetch(`/api/community/global?${params}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -869,12 +870,11 @@ const DiscussionsPage = () => {
 
                       <div>
                         <h3 className="font-bold text-main text-lg">
-                          Welcome to Global Discussion!
+                          {t("discussions.welcome_global")}
                         </h3>
 
                         <p className="text-muted text-sm mt-1">
-                          Connect, share insights, find partners, and discuss
-                          anything globally.
+                          {t("discussions.connect_text")}
                         </p>
 
                         <div className="relative group inline-block">
@@ -883,7 +883,7 @@ const DiscussionsPage = () => {
                             className="mt-2 text-blue-400 hover:text-blue-300 text-sm flex items-center gap-1"
                           >
                             <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
-                            Community Guidelines
+                            {t("discussions.community_guidelines")}
                           </button>
 
                           <div
@@ -895,25 +895,22 @@ const DiscussionsPage = () => {
                           >
                             <ul className="space-y-1">
                               <li>
-                                • Be respectful and courteous to all members.
+                                • {t("discussions.guideline_respect")}
                               </li>
                               <li>
-                                • Avoid spam, promotions, or irrelevant links.
+                                • {t("discussions.guideline_no_spam")}
                               </li>
                               <li>
-                                • Keep discussions related to learning and
-                                courses.
+                                • {t("discussions.guideline_stay_on_topic")}
                               </li>
                               <li>
-                                • Respect different opinions and perspectives.
+                                • {t("discussions.guideline_respect_opinions")}
                               </li>
                               <li>
-                                • Do not share personal or sensitive
-                                information.
+                                • {t("discussions.guideline_no_personal_info")}
                               </li>
                               <li>
-                                • Help maintain a positive and supportive
-                                community.
+                                • {t("discussions.guideline_supportive")}
                               </li>
                             </ul>
                           </div>
@@ -972,7 +969,7 @@ const DiscussionsPage = () => {
   "
                         >
                           <option value="" className="bg-white text-[#2D3436]">
-                            Select Category *
+                            {t("discussions.select_category")}
                           </option>
 
                           {GLOBAL_CATEGORIES.map((c) => (
@@ -981,7 +978,7 @@ const DiscussionsPage = () => {
                               value={c}
                               className="bg-white text-[#2D3436]"
                             >
-                              {c}
+                              {getCategoryLabel(c)}
                             </option>
                           ))}
                         </select>
@@ -1028,7 +1025,9 @@ const DiscussionsPage = () => {
                         }
                         className="appearance-none pl-3 pr-8 py-1.5 bg-card border border-border rounded-lg text-sm text-muted focus:outline-none cursor-pointer"
                       >
-                        <option>{t("discussions.all_categories")}</option>
+                        <option value={ALL_CATEGORIES_VALUE}>
+                          {t("discussions.all_categories")}
+                        </option>
                         {GLOBAL_CATEGORIES.map((c) => (
                           <option key={c} value={c}>
                             {getCategoryLabel(c)}
@@ -1101,7 +1100,7 @@ const DiscussionsPage = () => {
                                 "border-gray-500 text-gray-400"
                               }`}
                             >
-                              {post.category}
+                              {getCategoryLabel(post.category)}
                             </span>
                           )}
                         </div>
