@@ -475,9 +475,9 @@ const Dashboard = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200">
+                      <tbody className="divide-y divide-border">
                         {myCourses.map((course, index) => (
-                          <tr key={index} className="hover:bg-canvas-alt">
+                          <tr key={index} className="hover:bg-canvas-alt transition-colors duration-200 ease-in-out">
                             <td className="px-4 py-4">
                               <Link
                                 to={`/learning/${course.id}`}
@@ -489,7 +489,7 @@ const Dashboard = () => {
                                   className="w-12 h-12 rounded-lg mr-4"
                                 />
                                 <div>
-                                  <div className="font-medium text-main hover:text-indigo-600">
+                                  <div className="font-medium text-main hover:text-teal-600 transition-colors ease-in">
                                     {course.title}
                                   </div>
                                   <div className="text-sm text-muted">
@@ -548,7 +548,7 @@ const Dashboard = () => {
                                 className="w-12 h-12 rounded-lg mr-4"
                               />
                               <div className="flex-1">
-                                <h3 className="font-medium text-main mb-1 hover:text-teal-600">
+                                <h3 className="font-medium text-main mb-1 hover:text-teal-600 transition-colors ease-in">
                                   {item.title}
                                 </h3>
                                 <p className="text-sm text-muted mb-2">
@@ -564,7 +564,7 @@ const Dashboard = () => {
                             </Link>
                             <Link
                               to={`/learning/${item.id}`}
-                              className="ml-4 px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600"
+                              className="ml-4 px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600 hover:scale-102 transition-all ease-in duration-200"
                             >
                               {t("common.continue_learning")}
                             </Link>
